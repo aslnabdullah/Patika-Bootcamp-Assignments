@@ -2,7 +2,7 @@ package Week2;
 
 import java.util.Scanner;
 
-public class FindPallindromeNumber {
+public class FindPallindromeWord {
     public static void main(String[] args) {
         boolean control = false;
         System.out.println("lütfen kontrol etmek istediğiniz kelimeyi giriniz.");
