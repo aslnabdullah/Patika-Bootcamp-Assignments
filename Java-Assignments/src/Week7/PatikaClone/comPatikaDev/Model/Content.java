@@ -26,6 +26,9 @@ public class Content {
         this.language = language;
         this.user_id = User.getFetchId(user_id);
     }
+    public Content(){
+
+    }
 
 
     public static ArrayList<Content> getListByUser(int user_id) {
@@ -62,6 +65,41 @@ public class Content {
             pr.setString(4,description);
             pr.setString(5,link);
             pr.setString(6,language);
+
+            return pr.executeUpdate() != -1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
+    }
+    public static Content getFetch(int id){
+        Content obj = null;
+        String query = "SELECT * FROM content WHERE id = ?";
+
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1,id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new Content();
+                obj.setId(rs.getInt("id"));
+                obj.setUser_id(rs.getInt("user_id"));
+                obj.setTitle(rs.getString("title"));
+                obj.setDescribtion(rs.getString("description"));
+                obj.setLink(rs.getString("link"));
+                obj.setLanguage(rs.getString("language"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return obj;
+    }
+    public static boolean delete(int id){
+        String query = "DELETE FROM content WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1,id);
 
             return pr.executeUpdate() != -1;
         } catch (SQLException e) {
@@ -108,5 +146,13 @@ public class Content {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }

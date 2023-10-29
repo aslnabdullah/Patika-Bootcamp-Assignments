@@ -18,6 +18,7 @@ public class Course {
     private Patika patika;
     private User educator;
 
+
     public Course(int id, int user_id, int patika_id, String name, String lang) {
         this.id = id;
         this.user_id = user_id;
@@ -26,6 +27,13 @@ public class Course {
         this.lang = lang;
         this.patika = Patika.getFetch(patika_id);
         this.educator = User.getFetch(user_id);
+    }
+
+    public Course(int id, int patika_id, String name, String lang){
+        this.id = id;
+        this.patika_id = patika_id;
+        this.name = name;
+        this.lang = lang;
     }
 
     public int getId() {

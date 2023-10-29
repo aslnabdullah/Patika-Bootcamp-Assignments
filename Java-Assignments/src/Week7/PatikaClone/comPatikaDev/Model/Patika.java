@@ -2,6 +2,7 @@ package Week7.PatikaClone.comPatikaDev.Model;
 
 import Week7.PatikaClone.comPatikaDev.Helper.DBConnector;
 
+import java.security.PublicKey;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +15,9 @@ public class Patika {
 
     public Patika(int id, String name) {
         this.id = id;
+        this.name = name;
+    }
+    public Patika(String name){
         this.name = name;
     }
 
@@ -88,6 +92,21 @@ public class Patika {
         }
         return obj;
     }
+    public static Patika getFetchId(int id){
+        Patika obj = null;
+        String query = "SELECT * FROM patika WHERE id = ?";
+        try {
+            PreparedStatement pr = DBConnector.getInstance().prepareStatement(query);
+            pr.setInt(1,id);
+            ResultSet rs = pr.executeQuery();
+            if (rs.next()){
+                obj = new Patika(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return obj;
+    }
 
     public static boolean delete(int id){
         String query = "DELETE FROM patika WHERE id = ?";
@@ -105,5 +124,9 @@ public class Patika {
             System.out.println(e.getMessage());
         }
         return true;
+    }
+    @Override
+    public String toString() {
+        return name; // Patika adını döndürüyoruz
     }
 }
